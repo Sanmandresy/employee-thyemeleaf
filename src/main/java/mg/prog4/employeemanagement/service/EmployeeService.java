@@ -3,13 +3,9 @@ package mg.prog4.employeemanagement.service;
 import java.time.Instant;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import mg.prog4.employeemanagement.model.CreateEmployee;
 import mg.prog4.employeemanagement.repository.EmployeeRepository;
-import mg.prog4.employeemanagement.repository.PhoneRepository;
 import mg.prog4.employeemanagement.repository.dao.EmployeeDao;
 import mg.prog4.employeemanagement.repository.entity.Employee;
-import mg.prog4.employeemanagement.repository.entity.Phone;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class EmployeeService {
   private final EmployeeRepository repository;
-  private final PhoneRepository phoneRepository;
   private final EmployeeDao dao;
 
   public Employee getById(String id) {
@@ -31,7 +26,7 @@ public class EmployeeService {
   public List<Employee> findByCriteria(String firstName, String lastName, char gender,
                                        String position, Instant startedAt, Instant departedAt,
                                        String sortField, String sortOrder) {
-    return dao.findByCriteria(firstName, lastName, gender, position, startedAt, departedAt,
+    return dao.findByCriteriaNative(firstName, lastName, gender, position, startedAt, departedAt,
         sortField, sortOrder);
   }
 

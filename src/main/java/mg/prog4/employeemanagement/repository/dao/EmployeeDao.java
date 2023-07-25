@@ -1,6 +1,7 @@
 package mg.prog4.employeemanagement.repository.dao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -73,8 +74,13 @@ public class EmployeeDao {
     }
 
     if (startedAt != null && departedAt != null) {
-      predicates.add(builder.between(root.get("startedAt"), startedAt, departedAt));
-      predicates.add(builder.between(root.get("departedAt"), startedAt, departedAt));
+      predicates.add(
+          builder.or(
+              builder.between(root.get("startedAt"), startedAt, departedAt),
+              builder.between(root.get("departedAt"), startedAt, departedAt)
+          )
+      );
+
     }
 
     query
@@ -91,4 +97,70 @@ public class EmployeeDao {
 
     return entityManager.createQuery(query).getResultList();
   }
+
+  public List<Employee> findByCriteriaNative(String firstName, String lastName, char gender,
+                                             String position, Instant startedAt, Instant departedAt,
+                                             String sortField, String sortOrder) {
+    StringBuilder query = new StringBuilder("select * from Employee where 1=1 ");
+
+    if (firstName != null && !firstName.isEmpty()) {
+      query.append("and (lower(first_name) like :firstName or first_name like :firstName) ");
+    }
+
+    if (lastName != null && !lastName.isEmpty()) {
+      query.append("and (lower(last_name) like :lastName or last_name like :lastName) ");
+    }
+
+    if (gender != ' ') {
+      query.append("and gender=:gender ");
+    }
+
+    if (position != null && !position.isEmpty()) {
+      query.append("and (lower(position) like :position or position like :position) ");
+    }
+
+    if (startedAt != null && departedAt != null) {
+      query.append(
+          "and (started_at between :startedAt and :departedAt OR departed_at between :startedAt and :departedAt) ");
+    }
+
+    if (sortField != null && !sortField.isEmpty() && sortOrder.equalsIgnoreCase("asc")) {
+      query.append("order by ")
+          .append(sortField)
+          .append(" asc ");
+    } else if (sortField != null && !sortField.isEmpty() && sortOrder.equalsIgnoreCase("desc")) {
+      query.append("order by ")
+          .append(sortField)
+          .append(" desc ");
+    } else {
+      query.append("order by last_name asc ");
+    }
+
+    Query nativeQuery = entityManager.createNativeQuery(query.toString(), Employee.class);
+
+    if (firstName != null && !firstName.isEmpty()) {
+      nativeQuery.setParameter("firstName", "%" + firstName + "%");
+    }
+
+    if (lastName != null && !lastName.isEmpty()) {
+      nativeQuery.setParameter("lastName", "%" + lastName + "%");
+    }
+
+    if (gender != ' ') {
+      nativeQuery.setParameter("gender", String.valueOf(gender));
+    }
+
+    if (position != null && !position.isEmpty()) {
+      nativeQuery.setParameter("position", "%" + position + "%");
+    }
+
+    if (startedAt != null && departedAt != null) {
+      nativeQuery.setParameter("startedAt", startedAt);
+      nativeQuery.setParameter("departedAt", departedAt);
+    }
+
+    return nativeQuery.getResultList();
+  }
+
+
 }
