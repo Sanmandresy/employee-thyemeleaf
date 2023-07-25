@@ -60,6 +60,7 @@ public class EmployeeMapper {
         .id(entity.getId())
         .lastName(entity.getLastName())
         .firstName(entity.getFirstName())
+        .registrationNumber(entity.getRegistrationNumber())
         .birthDate(instantToCommonDate(entity.getBirthDate()))
         .startedAt(instantToCommonDate(entity.getStartedAt()))
         .departedAt(instantToCommonDate(entity.getDepartedAt()))

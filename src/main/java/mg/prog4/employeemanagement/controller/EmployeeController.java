@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import mg.prog4.employeemanagement.EmployeeConf;
 import mg.prog4.employeemanagement.controller.mapper.EmployeeMapper;
 import mg.prog4.employeemanagement.controller.mapper.PhoneMapper;
 import mg.prog4.employeemanagement.model.CsvEmployee;
@@ -35,7 +36,7 @@ public class EmployeeController {
   private final EmployeeService service;
   private final EmployeeMapper mapper;
   private final PhoneService phoneService;
-  private final PhoneMapper phoneMapper;
+  private final EmployeeConf conf;
 
   @GetMapping("/employees")
   public String getEmployees(Model model) {
@@ -43,6 +44,7 @@ public class EmployeeController {
         .map(mapper::toView)
         .toList();
     model.addAttribute("employees", employees);
+    model.addAttribute("conf", conf);
     return "employees";
   }
 
@@ -63,12 +65,14 @@ public class EmployeeController {
             .map(mapper::toView)
             .collect(Collectors.toList());
     model.addAttribute("employees", employees);
+    model.addAttribute("conf", conf);
     return "employees";
   }
 
 
   @GetMapping("/employee")
   public String Employee(Model model, @RequestParam("id") String id) {
+    model.addAttribute("conf", conf);
     Employee employee = mapper.toView(service.getById(id));
     model.addAttribute("employee", employee);
     String[] emailParts = employee.getEmail().split("-");
@@ -86,6 +90,7 @@ public class EmployeeController {
   @GetMapping("/add-employee")
   public String newEmployee(Model model) {
     model.addAttribute("employee", new CreateEmployee());
+    model.addAttribute("conf", conf);
     return "create-employee";
   }
 
