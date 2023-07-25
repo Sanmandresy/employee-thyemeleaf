@@ -1,4 +1,4 @@
-package mg.prog4.employeemanagement.repository.model;
+package mg.prog4.employeemanagement.repository.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,8 +39,6 @@ public class Employee implements Serializable {
   private String address;
 
   private String email;
-
-  private String phone;
 
   private String identity;
 

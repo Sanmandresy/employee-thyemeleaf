@@ -9,9 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import mg.prog4.employeemanagement.repository.model.Employee;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.query.QueryUtils;
+import mg.prog4.employeemanagement.repository.entity.Employee;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -22,12 +20,26 @@ public class EmployeeDao {
 
   public List<Employee> findByCriteria(String firstName, String lastName, char gender,
                                        String position, Instant startedAt, Instant departedAt,
-                                       String sortField, String sortOrder, Pageable pageable) {
+                                       String sortField, String sortOrder) {
     CriteriaBuilder builder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Employee> query = builder.createQuery(Employee.class);
     Root<Employee> root = query.from(Employee.class);
 
     List<Predicate> predicates = new ArrayList<>();
+
+    if (firstName.isEmpty()) {
+      firstName = null;
+    }
+    if (lastName.isEmpty()) {
+      lastName = null;
+    }
+    if (position.isEmpty()) {
+      position = null;
+    }
+    if (sortField.isEmpty()) {
+      sortField = null;
+    }
+
 
     if (firstName != null) {
       predicates.add(
@@ -68,17 +80,15 @@ public class EmployeeDao {
     query
         .where(builder.and(predicates.toArray(new Predicate[0])));
 
-    if (sortOrder.equalsIgnoreCase("asc")) {
+    if (sortField != null && sortOrder.equalsIgnoreCase("asc")) {
       query.orderBy(builder.asc(root.get(sortField)));
-    } else if (sortOrder.equalsIgnoreCase("desc")) {
+    } else if (sortField != null && sortOrder.equalsIgnoreCase("desc")) {
       query.orderBy(builder.desc(root.get(sortField)));
     } else {
-      query.orderBy(QueryUtils.toOrders(pageable.getSort(), root, builder));
+      query.orderBy(builder.asc(root.get("lastName")));
     }
 
-    return entityManager.createQuery(query)
-        .setFirstResult((pageable.getPageNumber()) * pageable.getPageSize())
-        .setMaxResults(pageable.getPageSize())
-        .getResultList();
+
+    return entityManager.createQuery(query).getResultList();
   }
 }

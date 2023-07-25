@@ -17,9 +17,13 @@ public class DataFormatterUtils {
   }
 
   public static Instant stringToInstant(String str) {
+    if (str == null || str.isEmpty()) {
+      return null;
+    }
     LocalDate localDate = LocalDate.parse(str);
     return localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
   }
+
 
   public static String instantToCommonDate(Instant instant) {
     DateTimeFormatter formatter = DateTimeFormatter

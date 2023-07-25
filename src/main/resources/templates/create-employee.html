@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" th:src="@{/js/create.js}" defer></script>
   </head>
-  <body class="min-h-screen overflow-auto" onload="setMaxDate()">
+  <body class="min-h-screen overflow-auto">
     <header
       class="sticky top-0 z-99 w-full py-3 px-5 flex flex-row justify-end gap-3 items-center"
     >
@@ -30,12 +30,19 @@
         >
           <div
             id="profile"
-            class="block mx-auto w-28 h-32 object-cover flex justify-center items-center p-6 bg-white border border-gray-200 rounded shadow hover:bg-gray-100"
+            class="mx-auto relative object-cover w-28 h-32 bg-white bg-gray-50 border border-gray-300 rounded shadow hover:bg-gray-100"
           >
+            <label
+              id="profile-pic-label"
+              for="profile-pic-upload"
+              class="absolute w-full bg-gray-50 border border-gray-300 h-full flex justify-center items-center z-999"
+              >Add picture</label
+            >
             <input
               type="file"
               id="profile-pic-upload"
               th:field="*{image}"
+              class="none"
               hidden
               onchange="loadFile(event)"
             />
@@ -44,21 +51,20 @@
               style="display: none"
               class="w-full h-full"
             />
-            <label id="profile-pic-label" for="profile-pic-upload" class="text-xs">Add picture</label>
           </div>
 
           <div
             class="my-4 py-4 flex flex-row justify-center gap-10 items-center w-full"
           >
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="lastname"
               type="text"
               placeholder="Lastname"
               th:field="*{lastName}"
             />
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="firstname"
               type="text"
               placeholder="Firstname"
@@ -71,14 +77,14 @@
           >
             <input
               type="date"
-              class="shadow appearance-none w-2/4 py-2 px-3 border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none w-2/4 py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Birthdate"
               th:field="*{birthDate}"
             />
             <select
               th:field="*{gender}"
               id="gender"
-              class="shadow appearance-none w-2/4 py-2 px-3 border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none w-2/4 py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="g">Choose a gender</option>
               <option th:value="M" value="M" th:text="Male" selected></option>
@@ -92,7 +98,7 @@
               type="text"
               id="address"
               placeholder="Address"
-              class="shadow py-4 appearance-none w-full border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow py-2.5 px-2 appearance-none w-full bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
 
@@ -105,14 +111,14 @@
             class="my-4 py-4 flex flex-row justify-center gap-10 items-center w-full"
           >
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="personal"
               type="email"
               placeholder="Personal"
               th:field="*{personalEmail}"
             />
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="email-work"
               type="email"
               placeholder="Work"
@@ -129,21 +135,21 @@
             class="my-4 py-4 flex flex-row justify-center gap-10 items-center w-full"
           >
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="mobile"
               type="tel"
               placeholder="Mobile"
               th:field="*{mobile}"
             />
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="home"
               type="tel"
               placeholder="Home"
               th:field="*{home}"
             />
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="work"
               type="tel"
               placeholder="Work"
@@ -160,7 +166,7 @@
             class="my-4 py-4 flex flex-row justify-center gap-10 items-center w-full"
           >
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="serial"
               type="text"
               placeholder="Serial"
@@ -168,12 +174,12 @@
             />
             <input
               type="date"
-              class="shadow appearance-none w-2/4 py-2 px-3 border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none w-2/4 py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Delivering Date"
               th:field="*{deliveredAt}"
             />
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="deliveredIn"
               type="text"
               placeholder="Delivered place"
@@ -190,14 +196,14 @@
             class="my-4 py-4 flex flex-row justify-center gap-10 items-center w-full"
           >
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="position"
               type="text"
               placeholder="Position"
               th:field="*{position}"
             />
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="children"
               value="0"
               min="0"
@@ -213,17 +219,17 @@
             <select
               id="category"
               th:field="*{category}"
-              class="shadow appearance-none w-2/4 py-2 px-3 border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none w-2/4 py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
-              <option value="dummy">Choose a category</option>
-              <option th:value="C1" value="C1" selected>C1</option>
+              <option value="dummy" disabled>Choose a category</option>
+              <option th:value="C1" value="C1">C1</option>
               <option th:valuevalue="C2" value="C2">C2</option>
               <option th:valuevalue="C3" value="C3">C3</option>
               <option th:value="C4" value="C4">C4</option>
               <option th:value="C5" value="C5">C5</option>
             </select>
             <input
-              class="shadow appearance-none border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="cnaps"
               type="text"
               placeholder="CNAPS"
@@ -232,18 +238,19 @@
           </div>
 
           <div
-                  class="my-4 py-4 flex flex-row justify-center gap-10 items-center w-full"
+            class="my-4 py-4 flex flex-row justify-center gap-10 items-center w-full"
           >
-            <input type="date"
-                    class="shadow appearance-none w-2/4 py-2 px-3 border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    placeholder="Start"
-                    th:field="*{startedAt}"
+            <input
+              type="date"
+              class="shadow appearance-none w-2/4 py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Start"
+              th:field="*{startedAt}"
             />
             <input
-                    type="date"
-                    class="shadow appearance-none w-2/4 py-2 px-3 border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    placeholder="Departure"
-                    th:field="*{departedAt}"
+              type="date"
+              class="shadow appearance-none w-2/4 py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Departure"
+              th:field="*{departedAt}"
             />
           </div>
 

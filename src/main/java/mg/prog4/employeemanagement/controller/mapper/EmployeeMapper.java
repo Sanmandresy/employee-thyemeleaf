@@ -1,8 +1,12 @@
 package mg.prog4.employeemanagement.controller.mapper;
 
 import java.util.List;
-import mg.prog4.employeemanagement.repository.model.Employee;
-import mg.prog4.employeemanagement.view.CreateEmployee;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import mg.prog4.employeemanagement.repository.PhoneRepository;
+import mg.prog4.employeemanagement.repository.entity.Employee;
+import mg.prog4.employeemanagement.model.CreateEmployee;
+import mg.prog4.employeemanagement.repository.entity.Phone;
 import org.springframework.stereotype.Component;
 
 import static mg.prog4.employeemanagement.service.utils.DataFormatterUtils.byteAToBase64;
@@ -11,7 +15,11 @@ import static mg.prog4.employeemanagement.service.utils.DataFormatterUtils.multi
 import static mg.prog4.employeemanagement.service.utils.DataFormatterUtils.stringToInstant;
 
 @Component
+@AllArgsConstructor
 public class EmployeeMapper {
+
+  private final PhoneRepository phoneRepository;
+  private final PhoneMapper phoneMapper;
 
   private String formatEmail(CreateEmployee toCreate) {
     return toCreate.getPersonalEmail() +
@@ -19,19 +27,11 @@ public class EmployeeMapper {
         toCreate.getWorkEmail();
   }
 
-  private String formatPhone(CreateEmployee toCreate) {
-    return toCreate.getMobile() +
-        "-" +
-        toCreate.getHome() +
-        "-" +
-        toCreate.getWork();
-  }
-
   private String formatIdentity(CreateEmployee toCreate) {
     return toCreate.getSerial() +
-        "-" +
+        "|" +
         toCreate.getDeliveredIn() +
-        "-" +
+        "|" +
         toCreate.getDeliveredAt();
   }
 
@@ -49,14 +49,14 @@ public class EmployeeMapper {
         .children(toCreate.getChildren())
         .departedAt(stringToInstant(toCreate.getDepartedAt()))
         .startedAt(stringToInstant(toCreate.getStartedAt()))
-        .phone(formatPhone(toCreate))
         .position(toCreate.getPosition())
         .identity(formatIdentity(toCreate))
         .build();
   }
 
-  public mg.prog4.employeemanagement.view.Employee toView(Employee toShow) {
-    return mg.prog4.employeemanagement.view.Employee.builder()
+  public mg.prog4.employeemanagement.model.Employee toView(Employee toShow) {
+    List<Phone> phone = phoneRepository.getByEmployeeId(toShow.getId());
+    return mg.prog4.employeemanagement.model.Employee.builder()
         .id(toShow.getId())
         .registrationNumber(toShow.getRegistrationNumber())
         .lastName(toShow.getLastName())
@@ -65,7 +65,7 @@ public class EmployeeMapper {
         .image(byteAToBase64(toShow.getImage()))
         .email(toShow.getEmail())
         .address(toShow.getAddress())
-        .phone(toShow.getPhone())
+        .phone(phone.stream().map(phoneMapper::toView).collect(Collectors.toList()))
         .identity(toShow.getIdentity())
         .position(toShow.getPosition())
         .children(toShow.getChildren())

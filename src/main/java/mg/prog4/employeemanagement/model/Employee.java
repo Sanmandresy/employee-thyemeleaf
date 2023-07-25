@@ -1,38 +1,33 @@
-package mg.prog4.employeemanagement.view;
+package mg.prog4.employeemanagement.model;
 
-import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class CreateEmployee {
+public class Employee {
+  private String registrationNumber;
+  private String id;
   private String firstName;
   private String lastName;
   private String birthDate;
   private String address;
-  private MultipartFile image;
+  private String image;
   private char gender;
 
-
   //email
-  private String personalEmail;
-  private String workEmail;
+  private String email;
 
   //phone
-  private String mobile;
-  private String home;
-  private String work;
+  private List<Phone> phone;
 
   //identity
-  private String serial;
-  private String deliveredIn;
-  private String deliveredAt;
+  private String identity;
 
   //company
   private String position;
@@ -41,5 +36,4 @@ public class CreateEmployee {
   private String departedAt;
   private String category;
   private String cnaps;
-
 }

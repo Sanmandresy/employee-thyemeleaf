@@ -1,10 +1,3 @@
-var currentDate = new Date().toISOString().split("T")[0];
-
-const setMaxDate = () => {
-  var dateField = document.getElementById("birth-date");
-  dateField.setAttribute("max", currentDate);
-};
-
 const loadFile = (event) => {
   var reader = new FileReader();
   reader.onload = function () {

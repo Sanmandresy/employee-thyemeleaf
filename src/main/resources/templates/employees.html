@@ -19,16 +19,88 @@
       <h1 class="text-blue-500 text-xl">Société</h1>
     </header>
     <main class="relative overflow-x-auto shadow-md sm:rounded-lg mx-3 my-5">
-      <a
-        th:href="@{/add-employee}"
-        type="button"
-        class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-2"
+      <form
+        th:action="@{/employees/filter}"
+        method="get"
+        class="bg-white shadow-md shadow-slate-500 rounded gap-3 flex flex-row justify-between px-2 items-center"
       >
-        New Employee
-      </a>
+        <input
+          class="shadow appearance-none bg-gray-50 border border-gray-300 w-40 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="lastname"
+          type="text"
+          placeholder="Lastname"
+          name="lastName"
+          th:name="lastName"
+        />
+        <input
+          class="shadow appearance-none bg-gray-50 border border-gray-300 w-40 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="firstname"
+          type="text"
+          placeholder="Firstname"
+          name="firstname"
+          th:name="firstName"
+        />
+
+        <input
+          type="date"
+          class="shadow appearance-none py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Start"
+          name="start"
+          th:name="start"
+        />
+        <input
+          type="date"
+          class="shadow appearance-none py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Departure"
+          name="departure"
+          th:name="departure"
+        />
+
+        <select
+          name="gender"
+          th:name="gender"
+          class="shadow appearance-none w-10 py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option value="g" disabled>Choose a gender</option>
+          <option th:value="M" value="M" th:text="Male">M</option>
+          <option th:value="F" value="M" th:text="Female">F</option>
+        </select>
+        <input
+          class="shadow appearance-none bg-gray-50 border border-gray-300 w-20 my-3 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="position"
+          type="text"
+          placeholder="Position"
+          name="position"
+          th:name="position"
+        />
+
+        <input
+          class="shadow appearance-none bg-gray-50 border border-gray-300 w-20 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="field"
+          type="text"
+          placeholder="Field"
+          th:name="field"
+        />
+        <select
+          id="order"
+          th:name="order"
+          class="shadow appearance-none py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option value="o" disabled>Order</option>
+          <option th:value="asc" value="asc" th:text="ASC">ASC</option>
+          <option th:value="desc" value="desc" th:text="DESC">DESC</option>
+        </select>
+        <button
+          type="submit"
+          class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 my-3 text-center"
+        >
+          Search
+        </button>
+      </form>
+
       <table class="w-full text-xs text-center text-gray-500 mt-5">
         <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-white"
         >
           <tr>
             <th scope="col" class="px-2 py-3">Registration N°</th>
@@ -76,5 +148,22 @@
         </tbody>
       </table>
     </main>
+    <div class="w-full my-5 px-4 flex flex-row justify-between items-center">
+      <a
+        th:href="@{/add-employee}"
+        type="button"
+        class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
+        New Employee
+      </a>
+      <a
+        target="_blank"
+        th:href="@{/csv}"
+        type="button"
+        class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
+        Export to csv
+      </a>
+    </div>
   </body>
 </html>
