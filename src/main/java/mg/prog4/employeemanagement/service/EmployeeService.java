@@ -35,6 +35,10 @@ public class EmployeeService {
         sortField, sortOrder);
   }
 
+  public List<Employee> findEmployeesByIds(List<String> ids) {
+    return repository.findEmployeesByIds(ids);
+  }
+
   @Transactional
   public Employee createEmployee(Employee toCreate) {
     return repository.save(toCreate);

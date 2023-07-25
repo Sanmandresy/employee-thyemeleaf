@@ -116,7 +116,7 @@
         </thead>
         <tbody>
           <tr
-            class="bg-gray-50 border-b text-center"
+            class="bg-gray-50 border-b text-center employee-row"
             th:each="employee : ${employees}"
             th:data-name="${employee.id}"
             th:onclick="redirectToEmployee(this.getAttribute('data-name'))"
@@ -156,14 +156,16 @@
       >
         New Employee
       </a>
-      <a
-        target="_blank"
-        th:href="@{/csv}"
-        type="button"
+
+      <form id="csv-form" th:action="@{/csv}" method="post">
+        <input type="hidden" id="employeeIds" name="employeeIds" th:value="${employeeIds}" />
+      </form>
+      <button
+      onclick="exportToCSV()"
         class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
         Export to csv
-      </a>
+      </button>
     </div>
   </body>
 </html>

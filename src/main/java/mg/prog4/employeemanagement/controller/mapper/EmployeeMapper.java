@@ -3,6 +3,7 @@ package mg.prog4.employeemanagement.controller.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import mg.prog4.employeemanagement.model.CsvEmployee;
 import mg.prog4.employeemanagement.repository.PhoneRepository;
 import mg.prog4.employeemanagement.repository.entity.Employee;
 import mg.prog4.employeemanagement.model.CreateEmployee;
@@ -51,6 +52,19 @@ public class EmployeeMapper {
         .startedAt(stringToInstant(toCreate.getStartedAt()))
         .position(toCreate.getPosition())
         .identity(formatIdentity(toCreate))
+        .build();
+  }
+
+  public CsvEmployee toCsv(Employee entity) {
+    return CsvEmployee.builder()
+        .id(entity.getId())
+        .lastName(entity.getLastName())
+        .firstName(entity.getFirstName())
+        .birthDate(instantToCommonDate(entity.getBirthDate()))
+        .startedAt(instantToCommonDate(entity.getStartedAt()))
+        .departedAt(instantToCommonDate(entity.getDepartedAt()))
+        .gender(entity.getGender())
+        .position(entity.getPosition())
         .build();
   }
 

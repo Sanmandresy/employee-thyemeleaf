@@ -1,11 +1,20 @@
 package mg.prog4.employeemanagement.controller;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import mg.prog4.employeemanagement.controller.mapper.EmployeeMapper;
 import mg.prog4.employeemanagement.controller.mapper.PhoneMapper;
+import mg.prog4.employeemanagement.model.CsvEmployee;
 import mg.prog4.employeemanagement.repository.entity.Phone;
 import mg.prog4.employeemanagement.service.EmployeeService;
 import mg.prog4.employeemanagement.model.CreateEmployee;
@@ -65,12 +74,12 @@ public class EmployeeController {
     String[] emailParts = employee.getEmail().split("-");
     String persEmail = emailParts[0];
     String workEmail = emailParts[1];
-    model.addAttribute("persEmail",persEmail);
-    model.addAttribute("workEmail",workEmail);
+    model.addAttribute("persEmail", persEmail);
+    model.addAttribute("workEmail", workEmail);
     String[] identity = employee.getIdentity().split("\\|");
-    model.addAttribute("serial",identity[0]);
-    model.addAttribute("deliveredIn",identity[1]);
-    model.addAttribute("deliveredAt",identity[2]);
+    model.addAttribute("serial", identity[0]);
+    model.addAttribute("deliveredIn", identity[1]);
+    model.addAttribute("deliveredAt", identity[2]);
     return "employee";
   }
 
@@ -91,4 +100,29 @@ public class EmployeeController {
     phoneService.crupdatePhones(phones);
     return "redirect:/employees";
   }
+
+  @PostMapping("/csv")
+  public void exportToCSV(HttpServletResponse response,
+                          @RequestParam("employeeIds") String employeeIdsStr) throws
+      IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
+
+    response.setContentType("text/csv");
+    response.setHeader("Content-Disposition", "attachment; filename=employees.csv");
+
+    List<String> employeeIds = Arrays.asList(employeeIdsStr.split(","));
+
+    StatefulBeanToCsv<CsvEmployee> writer =
+        new StatefulBeanToCsvBuilder<CsvEmployee>(response.getWriter())
+            .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+            .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+            .withOrderedResults(false)
+            .build();
+
+    List<CsvEmployee> employees = service.findEmployeesByIds(employeeIds).stream()
+        .map(mapper::toCsv)
+        .collect(Collectors.toList());
+
+    writer.write(employees);
+  }
+
 }
