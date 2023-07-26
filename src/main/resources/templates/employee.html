@@ -156,7 +156,11 @@
               th:each="number : ${employee.phone}"
               class="max-w-md space-y-1 text-gray-500 list-disc list-inside"
             >
-              <li th:text="${number.value}"></li>
+              <li class="flex flex-row">
+                <p>+</p>
+                <p th:text="${number.code}"></p>
+                <p class="ml-2" th:text="${number.value}"></p>
+              </li>
             </ul>
           </div>
           <div class="w-full px-10 flex flex-col my-3">

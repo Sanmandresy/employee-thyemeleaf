@@ -15,4 +15,5 @@ public class Phone {
   private String employeeId;
 
   private String value;
+  private String code;
 }

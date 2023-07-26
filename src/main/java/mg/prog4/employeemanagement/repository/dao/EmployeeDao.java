@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import java.time.Instant;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import mg.prog4.employeemanagement.repository.entity.Employee;
+import mg.prog4.employeemanagement.repository.entity.Phone;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,11 +22,14 @@ public class EmployeeDao {
 
 
   public List<Employee> findByCriteria(String firstName, String lastName, char gender,
-                                       String position, Instant startedAt, Instant departedAt,
+                                       String position, String code, Instant startedAt,
+                                       Instant departedAt,
                                        String sortField, String sortOrder) {
     CriteriaBuilder builder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Employee> query = builder.createQuery(Employee.class);
     Root<Employee> root = query.from(Employee.class);
+    Join<Employee, Phone> phoneJoin = root.join("phones");
+
 
     List<Predicate> predicates = new ArrayList<>();
 
@@ -37,6 +42,11 @@ public class EmployeeDao {
     if (position.isEmpty()) {
       position = null;
     }
+
+    if (code.isEmpty()) {
+      code = null;
+    }
+
     if (sortField.isEmpty()) {
       sortField = null;
     }
@@ -73,6 +83,10 @@ public class EmployeeDao {
       );
     }
 
+    if (code != null) {
+      predicates.add(builder.equal(phoneJoin.get("code"), code));
+    }
+
     if (startedAt != null && departedAt != null) {
       predicates.add(
           builder.or(
@@ -84,6 +98,7 @@ public class EmployeeDao {
     }
 
     query
+        .distinct(true)
         .where(builder.and(predicates.toArray(new Predicate[0])));
 
     if (sortField != null && sortOrder.equalsIgnoreCase("asc")) {
@@ -94,46 +109,49 @@ public class EmployeeDao {
       query.orderBy(builder.asc(root.get("lastName")));
     }
 
-
     return entityManager.createQuery(query).getResultList();
   }
 
   public List<Employee> findByCriteriaNative(String firstName, String lastName, char gender,
-                                             String position, Instant startedAt, Instant departedAt,
+                                             String position, String code, Instant startedAt,
+                                             Instant departedAt,
                                              String sortField, String sortOrder) {
-    StringBuilder query = new StringBuilder("select * from Employee where 1=1 ");
+    StringBuilder query = new StringBuilder(
+        "SELECT DISTINCT e.* FROM Employee e LEFT JOIN Phone p ON e.id = p.employee_id WHERE 1=1 ");
 
     if (firstName != null && !firstName.isEmpty()) {
-      query.append("and (lower(first_name) like :firstName or first_name like :firstName) ");
+      query.append("AND (lower(e.first_name) LIKE :firstName OR e.first_name LIKE :firstName) ");
     }
 
     if (lastName != null && !lastName.isEmpty()) {
-      query.append("and (lower(last_name) like :lastName or last_name like :lastName) ");
+      query.append("AND (lower(e.last_name) LIKE :lastName OR e.last_name LIKE :lastName) ");
     }
 
     if (gender != ' ') {
-      query.append("and gender=:gender ");
+      query.append("AND e.gender = :gender ");
     }
 
     if (position != null && !position.isEmpty()) {
-      query.append("and (lower(position) like :position or position like :position) ");
+      query.append("AND (lower(e.position) LIKE :position OR e.position LIKE :position) ");
+    }
+
+    if (code != null && !code.isEmpty()) {
+      query.append("AND p.code = :code ");
     }
 
     if (startedAt != null && departedAt != null) {
       query.append(
-          "and (started_at between :startedAt and :departedAt OR departed_at between :startedAt and :departedAt) ");
+          "AND (e.started_at BETWEEN :startedAt AND :departedAt OR e.departed_at BETWEEN :startedAt AND :departedAt) ");
     }
 
     if (sortField != null && !sortField.isEmpty() && sortOrder.equalsIgnoreCase("asc")) {
-      query.append("order by ")
-          .append(sortField)
-          .append(" asc ");
+      query.append("ORDER BY ").append("e.").append(sortField)
+          .append(" ASC ");
     } else if (sortField != null && !sortField.isEmpty() && sortOrder.equalsIgnoreCase("desc")) {
-      query.append("order by ")
-          .append(sortField)
-          .append(" desc ");
+      query.append("ORDER BY ").append("e.").append(sortField)
+          .append(" DESC ");
     } else {
-      query.append("order by last_name asc ");
+      query.append("ORDER BY e.last_name ASC ");
     }
 
     Query nativeQuery = entityManager.createNativeQuery(query.toString(), Employee.class);
@@ -152,6 +170,10 @@ public class EmployeeDao {
 
     if (position != null && !position.isEmpty()) {
       nativeQuery.setParameter("position", "%" + position + "%");
+    }
+
+    if (code != null && !code.isEmpty()) {
+      nativeQuery.setParameter("code", code);
     }
 
     if (startedAt != null && departedAt != null) {

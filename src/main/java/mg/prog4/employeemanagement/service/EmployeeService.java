@@ -24,9 +24,9 @@ public class EmployeeService {
   }
 
   public List<Employee> findByCriteria(String firstName, String lastName, char gender,
-                                       String position, Instant startedAt, Instant departedAt,
+                                       String position, String code, Instant startedAt, Instant departedAt,
                                        String sortField, String sortOrder) {
-    return dao.findByCriteriaNative(firstName, lastName, gender, position, startedAt, departedAt,
+    return dao.findByCriteriaNative(firstName, lastName, gender, position, code,startedAt, departedAt,
         sortField, sortOrder);
   }
 

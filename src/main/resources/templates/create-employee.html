@@ -134,27 +134,60 @@
           <div
             class="my-4 py-4 flex flex-row justify-center gap-10 items-center w-full"
           >
-            <input
-              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="mobile"
-              type="tel"
-              placeholder="Mobile"
-              th:field="*{mobile}"
-            />
-            <input
-              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="home"
-              type="tel"
-              placeholder="Home"
-              th:field="*{home}"
-            />
-            <input
-              class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="work"
-              type="tel"
-              placeholder="Work"
-              th:field="*{work}"
-            />
+            <div class="flex flex-row">
+              <input
+                      class="shadow appearance-none bg-gray-50 border border-gray-300 w-5 my-3 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="codeMobile"
+                      type="text"
+                      placeholder="Code"
+                      name="code"
+                      th:field="*{codeMobile}"
+              />
+              <input
+                      class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="mobile"
+                      type="tel"
+                      placeholder="Mobile"
+                      th:field="*{mobile}"
+              />
+            </div>
+            <div class="flex flex-row">
+              <input
+                      class="shadow appearance-none bg-gray-50 border border-gray-300 w-5 my-3 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="codeHome"
+                      type="text"
+                      placeholder="Code"
+                      name="code"
+                      th:field="*{codeHome}"
+              />
+              <input
+                      class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="home"
+                      type="tel"
+                      placeholder="Home"
+                      th:field="*{home}"
+              />
+            </div>
+
+            <div class="flex flex-row">
+              <input
+                      class="shadow appearance-none bg-gray-50 border border-gray-300 w-5 my-3 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="codeWork"
+                      type="text"
+                      placeholder="Code"
+                      name="code"
+                      th:field="*{codeWork}"
+              />
+              <input
+                      class="shadow appearance-none bg-gray-50 border border-gray-300 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="work"
+                      type="tel"
+                      placeholder="Work"
+                      th:field="*{work}"
+              />
+            </div>
+
+
           </div>
 
           <label

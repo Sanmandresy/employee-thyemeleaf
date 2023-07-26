@@ -24,6 +24,9 @@ public class CreateEmployee {
   private String workEmail;
 
   //phone
+  private String codeMobile;
+  private String codeHome;
+  private String codeWork;
   private String mobile;
   private String home;
   private String work;

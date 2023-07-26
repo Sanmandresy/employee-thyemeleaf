@@ -54,13 +54,14 @@ public class EmployeeController {
       @RequestParam(value = "firstName", required = false) String firstName,
       @RequestParam(value = "gender", required = false) char gender,
       @RequestParam(value = "position", required = false) String position,
+      @RequestParam(value = "code", required = false) String code,
       @RequestParam(value = "start", required = false) String start,
       @RequestParam(value = "departure", required = false) String departure,
       @RequestParam(value = "field", required = false) String field,
       @RequestParam(value = "order", required = false) String order,
       Model model) {
     List<Employee> employees =
-        service.findByCriteria(firstName, lastName, gender, position, stringToInstant(start),
+        service.findByCriteria(firstName, lastName, gender, position, code, stringToInstant(start),
                 stringToInstant(departure), field, order).stream()
             .map(mapper::toView)
             .collect(Collectors.toList());
@@ -99,9 +100,11 @@ public class EmployeeController {
     mg.prog4.employeemanagement.repository.entity.Employee saved =
         service.createEmployee(mapper.toDomain(employee));
     List<Phone> phones = new ArrayList<>();
-    phones.add(phoneService.registerPhone(saved.getId(), employee.getHome()));
-    phones.add(phoneService.registerPhone(saved.getId(), employee.getMobile()));
-    phones.add(phoneService.registerPhone(saved.getId(), employee.getWork()));
+    phones.add(
+        phoneService.registerPhone(saved.getId(), employee.getHome(), employee.getCodeHome()));
+    phones.add(
+        phoneService.registerPhone(saved.getId(), employee.getMobile(), employee.getCodeMobile()));
+    phones.add(phoneService.registerPhone(saved.getId(), employee.getWork(), employee.getCodeWork()));
     phoneService.crupdatePhones(phones);
     return "redirect:/employees";
   }

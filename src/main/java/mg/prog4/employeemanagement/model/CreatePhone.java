@@ -13,4 +13,5 @@ public class CreatePhone {
   private String employeeId;
 
   private String value;
+  private String code;
 }
