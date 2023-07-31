@@ -12,6 +12,8 @@ public class EmployeeConf {
   private String motto = "";
   private String address = "Fontenay Sous Bois 94120";
   private String email = "contact@numer.tech";
+  private String code = "06";
+  private String phone = "12 56 894 456";
   private String NIF = "";
   private String STAT = "";
   private String RCS = "";
