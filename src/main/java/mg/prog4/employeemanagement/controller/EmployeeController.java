@@ -57,7 +57,7 @@ public class EmployeeController {
   public String filterByCriteria(
       @RequestParam(value = "lastName", required = false) String lastName,
       @RequestParam(value = "firstName", required = false) String firstName,
-      @RequestParam(value = "gender", required = false) char gender,
+      @RequestParam(value = "gender", required = false) String gender,
       @RequestParam(value = "position", required = false) String position,
       @RequestParam(value = "code", required = false) String code,
       @RequestParam(value = "start", required = false) String start,

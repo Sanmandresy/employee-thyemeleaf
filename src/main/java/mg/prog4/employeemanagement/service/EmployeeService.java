@@ -23,7 +23,7 @@ public class EmployeeService {
     return repository.findAll();
   }
 
-  public List<Employee> findByCriteria(String firstName, String lastName, char gender,
+  public List<Employee> findByCriteria(String firstName, String lastName, String gender,
                                        String position, String code, Instant startedAt, Instant departedAt,
                                        String sortField, String sortOrder) {
     return dao.findByCriteriaNative(firstName, lastName, gender, position, code,startedAt, departedAt,

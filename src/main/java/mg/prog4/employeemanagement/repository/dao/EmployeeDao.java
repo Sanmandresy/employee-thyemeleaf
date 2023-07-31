@@ -21,7 +21,7 @@ public class EmployeeDao {
   private final EntityManager entityManager;
 
 
-  public List<Employee> findByCriteria(String firstName, String lastName, char gender,
+  public List<Employee> findByCriteria(String firstName, String lastName, String gender,
                                        String position, String code, Instant startedAt,
                                        Instant departedAt,
                                        String sortField, String sortOrder) {
@@ -70,7 +70,7 @@ public class EmployeeDao {
       );
     }
 
-    if ((gender == 'M') || (gender == 'F')) {
+    if (gender != null) {
       predicates.add(builder.equal(root.get("gender"), gender));
     }
 
@@ -112,7 +112,7 @@ public class EmployeeDao {
     return entityManager.createQuery(query).getResultList();
   }
 
-  public List<Employee> findByCriteriaNative(String firstName, String lastName, char gender,
+  public List<Employee> findByCriteriaNative(String firstName, String lastName, String gender,
                                              String position, String code, Instant startedAt,
                                              Instant departedAt,
                                              String sortField, String sortOrder) {
@@ -127,7 +127,7 @@ public class EmployeeDao {
       query.append("AND (lower(e.last_name) LIKE :lastName OR e.last_name LIKE :lastName) ");
     }
 
-    if (gender != ' ') {
+    if (gender != null && !gender.isEmpty()) {
       query.append("AND e.gender = :gender ");
     }
 
@@ -164,8 +164,8 @@ public class EmployeeDao {
       nativeQuery.setParameter("lastName", "%" + lastName + "%");
     }
 
-    if (gender != ' ') {
-      nativeQuery.setParameter("gender", String.valueOf(gender));
+    if (gender != null && !gender.isEmpty()) {
+      nativeQuery.setParameter("gender", gender);
     }
 
     if (position != null && !position.isEmpty()) {
