@@ -138,11 +138,11 @@
               th:text="${employee.registrationNumber}"
             ></th>
             <td class="flex justify-center items-center px-3 py-4">
-              <div th:if="${employee.image == null}">
+              <div th:if="${employee.image == null || employee.image == ''}">
                 No image
               </div>
               <img
-                      th:if="${employee.image != null}"
+                      th:if="${employee.image != null && employee.image != ''}"
                       class="w-8 h-8"
                       src="#"
                       th:src="@{'data:image/jpeg;base64,' + ${employee.image}}"
