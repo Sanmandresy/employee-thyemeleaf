@@ -6,10 +6,16 @@
     <title>Employee Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" th:src="@{/js/index.js}" defer></script>
+    <style>
+      .card {
+        border-radius: 30px;
+        box-shadow: 25px 25px 25px #bebebe, -25px -25px 25px #f7f4f4;
+      }
+    </style>
   </head>
-  <body class="min-h-screen">
+  <body class="min-h-screen" style="background-color: #e8e8e8">
     <header
-      class="w-full py-3 px-5 flex flex-row justify-end gap-3 items-center"
+      class="w-full z-9999 sticky top-0 py-3 px-5 flex flex-row justify-end gap-3 items-center"
     >
       <img
         class="w-8 h-8 rounded-full"
@@ -18,16 +24,51 @@
       />
       <h1 class="text-blue-500 text-xl" th:text="${conf.getName()}"></h1>
     </header>
-    <main
-      class="w-full flex flex-col items-center justify-center my-20 h-96 gap-20"
-    >
-      <h2 class="text-blue-400 uppercase text-4xl">Employee Management</h2>
-      <button
-        class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        onclick="redirectToEmployees()"
+    <main class="w-full">
+      <div
+        class="card max-w-md h-72 mx-auto rounded-lg"
+        style="background-color: #e0e0e0"
       >
-        Go
-      </button>
+        <h2 class="text-center py-5 text-xl font-medium text-stone">
+          Employee Management
+        </h2>
+        <form
+          class="my-8 space-y-6"
+          th:action="@{/}"
+          method="post"
+        >
+          <div class="rounded-md -space-y-px">
+            <div class="mb-5 space-y-2 text-center flex justify-center">
+              <input
+                id="email"
+                name="email"
+                th:name="email"
+                type="email"
+                class="w-80 px-3 py-2 rounded-md shadow-md text-sm text-center sm:text-sm focus:outline-none"
+                placeholder="Email"
+              />
+            </div>
+            <div class="mb-5 space-y-2 flex justify-center">
+              <input
+                id="password"
+                name="password"
+                th:name="password"
+                type="password"
+                class="text-center w-80 px-3 py-2 rounded-md shadow-md text-sm sm:text-sm focus:outline-none"
+                placeholder="Password"
+              />
+            </div>
+          </div>
+          <div class="w-full flex justify-center items-center py-6">
+            <button
+              class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Sign in
+            </button>
+          </div>
+        </form>
+      </div>
     </main>
   </body>
 </html>

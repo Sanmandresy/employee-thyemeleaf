@@ -5,25 +5,32 @@
     <title>Employee Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" th:src="@{/js/update.js}" defer></script>
+    <style>
+      .card {
+        border-radius: 30px;
+        box-shadow: 25px 25px 25px #bebebe, -25px -25px 25px #f7f4f4;
+      }
+    </style>
   </head>
-  <body class="min-h-screen overflow-auto">
-  <header
-          class="sticky top-0 z-99 w-full py-3 px-5 flex flex-row justify-end gap-3 items-center"
-  >
-    <img
-            class="w-8 h-8 rounded-full"
-            th:src="${conf.getLogo()}"
-            alt="logo société"
-    />
-    <h1 class="text-blue-500 text-xl" th:text="${conf.getName()}"></h1>
-  </header>
+  <body class="min-h-screen overflow-auto" style="background-color: #e8e8e8">
+    <header
+      class="sticky top-0 z-99 w-full py-3 px-5 flex flex-row justify-end gap-3 items-center"
+    >
+      <img
+        class="w-8 h-8 rounded-full"
+        th:src="${conf.getLogo()}"
+        alt="logo société"
+      />
+      <h1 class="text-blue-500 text-xl" th:text="${conf.getName()}"></h1>
+    </header>
     <main class="relative w-full flex justify-center">
       <div class="w-full max-w-lg mt-10">
         <form
           th:action="@{/update}"
           th:object="${employee}"
           method="post"
-          class="relative shadow-md shadow-slate-500 rounded px-3 pt-3 pb-8 mb-4"
+          class="card relative px-3 pt-3 pb-8 mb-4"
+          style="background-color: #e0e0e0"
         >
           <span
             th:text="${employee.registrationNumber}"
@@ -35,12 +42,14 @@
                 type="text"
                 th:field="*{lastName}"
                 th:value="${employee.lastName}"
+                style="background-color: #e0e0e0"
                 class="text-3xl text-center w-40 focus:outline-none focus:border-b my-2"
               />
               <input
                 type="text"
                 th:field="*{firstName}"
                 th:value="${employee.firstName}"
+                style="background-color: #e0e0e0"
                 class="text-xl text-center w-40 focus:outline-none focus:border-b my-2"
               />
             </div>
@@ -58,6 +67,7 @@
                   id="actual-pic"
                   alt="aucune image"
                   src="#"
+                  style="background-color: #e0e0e0"
                   th:src="@{'data:image/jpeg;base64,' + ${employee.image}}"
                   class="w-full h-full"
                 />
@@ -91,6 +101,7 @@
                 th:field="*{birthDate}"
                 class="text-center w-40 focus:outline-none focus:border-b"
                 th:value="${employee.birthDate}"
+                style="background-color: #e0e0e0"
               />
             </div>
             <div class="flex flex-col items-center">
@@ -99,6 +110,7 @@
               >
               <input
                 th:field="*{gender}"
+                style="background-color: #e0e0e0"
                 id="gender"
                 th:value="${employee.gender}"
                 class="text-center bg-white w-40 focus:outline-none focus:border-b"
@@ -112,6 +124,7 @@
             <input
               type="text"
               id="address"
+              style="background-color: #e0e0e0"
               name="address"
               th:field="*{address}"
               class="text-center w-full w-40 focus:outline-none focus:border-b"
@@ -129,6 +142,7 @@
                 type="email"
                 id="pers-email"
                 name="pers-email"
+                style="background-color: #e0e0e0"
                 class="text-center w-40 focus:outline-none focus:border-b"
                 th:value="${persEmail}"
               />
@@ -143,6 +157,7 @@
                 type="email"
                 id="work-email"
                 name="work-email"
+                style="background-color: #e0e0e0"
                 class="text-center w-40 focus:outline-none focus:border-b"
                 th:value="${workEmail}"
               />
@@ -169,15 +184,15 @@
             >
             <dl class="w-full text-gray-900 divide-y divide-gray-200">
               <div class="flex flex-col">
-                <dt class="my-1 text-gray-500 md:text-lg">Serial</dt>
+                <dt class="my-1 text-blue-500 md:text-lg">Serial</dt>
                 <dd class="text-md font-semibold" th:text="${serial}"></dd>
               </div>
               <div class="flex flex-col">
-                <dt class="my-1 text-gray-500 md:text-lg">Delivered In</dt>
+                <dt class="my-1 text-blue-500 md:text-lg">Delivered In</dt>
                 <dd class="text-md font-semibold" th:text="${deliveredIn}"></dd>
               </div>
               <div class="flex flex-col">
-                <dt class="my-1 text-gray-500 md:text-lg">Delivered At</dt>
+                <dt class="my-1 text-blue-500 md:text-lg">Delivered At</dt>
                 <dd class="text-md font-semibold" th:text="${deliveredAt}"></dd>
               </div>
             </dl>
@@ -189,42 +204,42 @@
             >
             <dl class="w-full text-gray-900 divide-y divide-gray-200">
               <div class="flex flex-col">
-                <dt class="my-1 text-gray-500 md:text-lg">Position</dt>
+                <dt class="my-1 text-blue-500 md:text-lg">Position</dt>
                 <dd
                   class="text-md font-semibold"
                   th:text="${employee.position}"
                 ></dd>
               </div>
               <div class="flex flex-col">
-                <dt class="my-1 text-gray-500 md:text-lg">Children</dt>
+                <dt class="my-1 text-blue-500 md:text-lg">Children</dt>
                 <dd
                   class="text-md font-semibold"
                   th:text="${employee.children}"
                 ></dd>
               </div>
               <div class="flex flex-col">
-                <dt class="my-1 text-gray-500 md:text-lg">Category</dt>
+                <dt class="my-1 text-blue-500 md:text-lg">Category</dt>
                 <dd
                   class="text-md font-semibold"
                   th:text="${employee.category}"
                 ></dd>
               </div>
               <div class="flex flex-col">
-                <dt class="my-1 text-gray-500 md:text-lg">Cnaps</dt>
+                <dt class="my-1 text-blue-500 md:text-lg">Cnaps</dt>
                 <dd
                   class="text-md font-semibold"
                   th:text="${employee.cnaps}"
                 ></dd>
               </div>
               <div class="flex flex-col">
-                <dt class="my-1 text-gray-500 md:text-lg">Started</dt>
+                <dt class="my-1 text-blue-500 md:text-lg">Started</dt>
                 <dd
                   class="text-md font-semibold"
                   th:text="${employee.startedAt}"
                 ></dd>
               </div>
               <div class="flex flex-col">
-                <dt class="my-1 text-gray-500 md:text-lg">Departure</dt>
+                <dt class="my-1 text-blue-500 md:text-lg">Departure</dt>
                 <dd
                   class="text-md font-semibold"
                   th:text="${employee.departedAt}"

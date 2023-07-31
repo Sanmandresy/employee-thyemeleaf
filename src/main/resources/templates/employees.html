@@ -7,14 +7,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" th:src="@{/js/list.js}" defer></script>
   </head>
-  <body class="min-h-screen overflow-auto">
+  <body class="min-h-screen overflow-auto" style="background-color: #e8e8e8">
     <header
       class="sticky top-0 z-99 w-full py-3 px-5 flex flex-row justify-end gap-3 items-center"
     >
       <img
-              class="w-8 h-8 rounded-full"
-              th:src="${conf.getLogo()}"
-              alt="logo société"
+        class="w-8 h-8 rounded-full"
+        th:src="${conf.getLogo()}"
+        alt="logo société"
       />
       <h1 class="text-blue-500 text-xl" th:text="${conf.getName()}"></h1>
     </header>
@@ -22,10 +22,11 @@
       <form
         th:action="@{/employees/filter}"
         method="get"
-        class="bg-white shadow-md shadow-slate-500 rounded gap-3 flex flex-row justify-between px-2 items-center"
+        style="background-color: #e0e0e0"
+        class="shadow-md shadow-slate-500 rounded gap-3 flex flex-row justify-between px-2 items-center"
       >
         <input
-          class="shadow appearance-none bg-gray-50 border border-gray-300 w-40 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border border-gray-300 w-40 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="lastname"
           type="text"
           placeholder="Lastname"
@@ -33,7 +34,7 @@
           th:name="lastName"
         />
         <input
-          class="shadow appearance-none bg-gray-50 border border-gray-300 w-40 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border border-gray-300 w-40 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="firstname"
           type="text"
           placeholder="Firstname"
@@ -43,14 +44,14 @@
 
         <input
           type="date"
-          class="shadow appearance-none py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none py-2 px-3 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="Start"
           name="start"
           th:name="start"
         />
         <input
           type="date"
-          class="shadow appearance-none py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none py-2 px-3 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="Departure"
           name="departure"
           th:name="departure"
@@ -59,14 +60,14 @@
         <select
           name="gender"
           th:name="gender"
-          class="shadow appearance-none w-10 py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none bg-white w-10 py-2 px-3 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         >
           <option value="g" disabled>Choose a gender</option>
           <option th:value="M" value="M" th:text="Male">M</option>
           <option th:value="F" value="M" th:text="Female">F</option>
         </select>
         <input
-          class="shadow appearance-none bg-gray-50 border border-gray-300 w-20 my-3 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border border-gray-300 w-20 my-3 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="position"
           type="text"
           placeholder="Position"
@@ -75,16 +76,16 @@
         />
 
         <input
-                class="shadow appearance-none bg-gray-50 border border-gray-300 w-20 my-3 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="code"
-                type="text"
-                placeholder="Code"
-                name="code"
-                th:name="code"
+          class="shadow appearance-none border border-gray-300 w-20 my-3 rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="code"
+          type="text"
+          placeholder="Code"
+          name="code"
+          th:name="code"
         />
 
         <input
-          class="shadow appearance-none bg-gray-50 border border-gray-300 w-20 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border border-gray-300 w-20 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="field"
           type="text"
           placeholder="Field"
@@ -93,7 +94,7 @@
         <select
           id="order"
           th:name="order"
-          class="shadow appearance-none py-2 px-3 bg-gray-50 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none bg-white py-2 px-3 border border-gray-300 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         >
           <option value="o" disabled>Order</option>
           <option th:value="asc" value="asc" th:text="ASC">ASC</option>
@@ -125,7 +126,7 @@
         </thead>
         <tbody>
           <tr
-            class="bg-gray-50 border-b text-center employee-row"
+            class="bg-white border-b text-center employee-row"
             th:each="employee : ${employees}"
             th:data-name="${employee.id}"
             th:onclick="redirectToEmployee(this.getAttribute('data-name'))"
@@ -167,10 +168,15 @@
       </a>
 
       <form id="csv-form" th:action="@{/csv}" method="post">
-        <input type="hidden" id="employeeIds" name="employeeIds" th:value="${employeeIds}" />
+        <input
+          type="hidden"
+          id="employeeIds"
+          name="employeeIds"
+          th:value="${employeeIds}"
+        />
       </form>
       <button
-      onclick="exportToCSV()"
+        onclick="exportToCSV()"
         class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
         Export to csv

@@ -6,6 +6,7 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +40,11 @@ public class EmployeeController {
   private final EmployeeConf conf;
 
   @GetMapping("/employees")
-  public String getEmployees(Model model) {
+  public String getEmployees(Model model, HttpSession session) {
+    Boolean isAuthenticated = (Boolean) session.getAttribute("isAuthenticated");
+    if (isAuthenticated == null || !isAuthenticated) {
+      return "redirect:/";
+    }
     List<Employee> employees = service.getEmployees().stream()
         .map(mapper::toView)
         .toList();
@@ -59,7 +64,11 @@ public class EmployeeController {
       @RequestParam(value = "departure", required = false) String departure,
       @RequestParam(value = "field", required = false) String field,
       @RequestParam(value = "order", required = false) String order,
-      Model model) {
+      Model model, HttpSession session) {
+    Boolean isAuthenticated = (Boolean) session.getAttribute("isAuthenticated");
+    if (isAuthenticated == null || !isAuthenticated) {
+      return "redirect:/";
+    }
     List<Employee> employees =
         service.findByCriteria(firstName, lastName, gender, position, code, stringToInstant(start),
                 stringToInstant(departure), field, order).stream()
@@ -72,7 +81,11 @@ public class EmployeeController {
 
 
   @GetMapping("/employee")
-  public String Employee(Model model, @RequestParam("id") String id) {
+  public String Employee(Model model, @RequestParam("id") String id, HttpSession session) {
+    Boolean isAuthenticated = (Boolean) session.getAttribute("isAuthenticated");
+    if (isAuthenticated == null || !isAuthenticated) {
+      return "redirect:/";
+    }
     model.addAttribute("conf", conf);
     Employee employee = mapper.toView(service.getById(id));
     model.addAttribute("employee", employee);
@@ -89,14 +102,22 @@ public class EmployeeController {
   }
 
   @GetMapping("/add-employee")
-  public String newEmployee(Model model) {
+  public String newEmployee(Model model, HttpSession session) {
+    Boolean isAuthenticated = (Boolean) session.getAttribute("isAuthenticated");
+    if (isAuthenticated == null || !isAuthenticated) {
+      return "redirect:/";
+    }
     model.addAttribute("employee", new CreateEmployee());
     model.addAttribute("conf", conf);
     return "create-employee";
   }
 
   @PostMapping("/save")
-  public String saveEmployee(@ModelAttribute CreateEmployee employee) {
+  public String saveEmployee(@ModelAttribute CreateEmployee employee, HttpSession session) {
+    Boolean isAuthenticated = (Boolean) session.getAttribute("isAuthenticated");
+    if (isAuthenticated == null || !isAuthenticated) {
+      return "redirect:/";
+    }
     mg.prog4.employeemanagement.repository.entity.Employee saved =
         service.createEmployee(mapper.toDomain(employee));
     List<Phone> phones = new ArrayList<>();
