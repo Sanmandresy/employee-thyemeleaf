@@ -12,6 +12,7 @@
       class="sticky top-0 z-99 w-full py-3 px-5 flex flex-row justify-end gap-3 items-center"
     >
       <img
+              src="#"
         class="w-8 h-8 rounded-full"
         th:src="${conf.getLogo()}"
         alt="logo société"
@@ -137,11 +138,15 @@
               th:text="${employee.registrationNumber}"
             ></th>
             <td class="flex justify-center items-center px-3 py-4">
+              <div th:if="${employee.image == null}">
+                No image
+              </div>
               <img
-                class="w-8 h-8"
-                src="#"
-                th:src="@{'data:image/jpeg;base64,' + ${employee.image}}"
-                alt="Employee Image"
+                      th:if="${employee.image != null}"
+                      class="w-8 h-8"
+                      src="#"
+                      th:src="@{'data:image/jpeg;base64,' + ${employee.image}}"
+                      alt="Employee Image"
               />
             </td>
             <td

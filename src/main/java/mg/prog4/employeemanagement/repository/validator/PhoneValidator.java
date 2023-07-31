@@ -18,8 +18,11 @@ public class PhoneValidator implements Consumer<Phone> {
   @Override
   public void accept(Phone phone) {
     Set<String> violationMessages = new HashSet<>();
-    if (phone.getId() == null && repository.existsByValue(phone.getValue())) {
+    if (phone.getId() == null && repository.existsByValueAndCode(phone.getValue(), phone.getCode())) {
       violationMessages.add("Phone number already exists");
+    }
+    if (String.join("", phone.getValue().split(" ")).length() < 10) {
+      violationMessages.add("Value length must be equal or superior to 10.");
     }
     if (!violationMessages.isEmpty()) {
       String formattedViolationMessages = violationMessages.stream()
